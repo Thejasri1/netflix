@@ -5,3 +5,4 @@
 # Programing Language : Typescript
 # Front end libraries : Chakra UI
 # Backend Technologies : Node js
+vercel app link : https://netflix-clone-app-rho-seven.vercel.app
