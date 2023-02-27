@@ -86,7 +86,7 @@ const SearchScreen = () => {
                         {images.map((img: any) => {
                             return (
                                 <HStack _hover={{ borderColor: COLORS.WHITE, border: '2px solid' }} color={COLORS.WHITE} key={img}>
-                                    <Img src={img} alt="netFlixIcon" height={200} width={150} style={{ margin: "5px" }} key={img} />
+                                    <Img src={img} alt="netFlixLogo" height={200} width={150} style={{ margin: "5px" }} key={img} />
                                 </HStack>
                             )
                         })}
