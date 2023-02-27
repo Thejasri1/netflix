@@ -138,7 +138,7 @@ const HomeScreen = () => {
               return (
                 <Flex key={m.id}>
                   <VStack mt={5} p={8}>
-                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid' }} color={COLORS.WHITE} align="center">
+                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid', transform: "scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
                       {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
                         alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropTvshow(m)} />}
                     </Stack>
