@@ -5,7 +5,7 @@ import { BsPlay } from "react-icons/bs"
 import React, { useState, useEffect } from "react";
 import { getAllMovies, getMovieById } from "../api/moviesList";
 import { Row, Col } from "antd";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const MoviesScreen = () => {
   const navigate = useNavigate()
@@ -94,9 +94,9 @@ const MoviesScreen = () => {
               return (
                 <Flex key={m.id}>
                   <VStack mt={5} p={8}>
-                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid' }} color={COLORS.WHITE}>
+                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid' ,transform:"scale(1.10,1.10)"}} color={COLORS.WHITE} align="center">
                       {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
-                        alt={m.title} height={160} width={130} onClick={() => onDisplayBackdropMovie(m)} />}
+                        alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropMovie(m)} />}
                     </Stack>
                     <Text color={COLORS.WHITE} width={100} >{m.poster_path !== "" && m.title}</Text>
                   </VStack>

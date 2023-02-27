@@ -5,14 +5,15 @@ import { MdOutlineCategory, MdOutlineNotificationsActive } from "react-icons/md"
 import { RiMovieFill } from "react-icons/ri"
 import { AiFillHome, AiOutlineInfoCircle } from "react-icons/ai";
 import { BsPlay } from "react-icons/bs"
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import SearchScreen from "./SearchScreen";
 import MoviesScreen from "./MoviesScreen"
 import { getAllMovies, getMovieById, getAllTvshows, getTvshowById } from "../api/moviesList";
 import CategoryScreen from "./CategoryScreen";
 import NotificationsScreen from "./NotificationsScreen";
 import { Row, Col } from "antd";
-import {  useNavigate } from "react-router-dom";
+import { isMobile, isTablet, isAndroid } from 'react-device-detect';
+import { useNavigate } from "react-router-dom";
 import SeriesScreen from "./SeriesScreen";
 
 const HomeScreen = () => {
@@ -53,8 +54,8 @@ const HomeScreen = () => {
   }
 
   const onDisplayVideoScreen = (movieData: any) => {
-    const typeOfText = movieData?.title ===undefined?"Tv":"Movie"
-    return (  
+    const typeOfText = movieData?.title === undefined ? "Tv" : "Movie"
+    return (
       navigate(`/MoviePlayScreen`, { state: [movieData, typeOfText] })
     )
   }
@@ -119,9 +120,9 @@ const HomeScreen = () => {
               return (
                 <Flex key={m.id}>
                   <VStack mt={5} p={8}>
-                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid' }} color={COLORS.WHITE}>
+                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid', transform: "scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
                       {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
-                        alt={m.title} height={160} width={130} onClick={() => onDisplayBackdropMovie(m)} />}
+                        alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropMovie(m)} />}
                     </Stack>
                     <Text color={COLORS.WHITE} width={100} >{m.poster_path !== "" && m.title}</Text>
                   </VStack>
@@ -137,9 +138,9 @@ const HomeScreen = () => {
               return (
                 <Flex key={m.id}>
                   <VStack mt={5} p={8}>
-                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid' }} color={COLORS.WHITE}>
+                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid' }} color={COLORS.WHITE} align="center">
                       {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
-                        alt={m.title} height={160} width={130} onClick={() => onDisplayBackdropTvshow(m)} />}
+                        alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropTvshow(m)} />}
                     </Stack>
                     <Text color={COLORS.WHITE} width={100} >{m.poster_path !== "" && m.name}</Text>
                   </VStack>
@@ -160,8 +161,25 @@ const HomeScreen = () => {
     textDecoration: "underLine", cursor: "pointer", textDecorationColor: "#E50914"
   }
   const { textDecoration, cursor, textDecorationColor } = textDecorationStyles
+
   return (
-    <Box>
+    <Box height={"100vh"} width={"100vw"} overflowY={"scroll"} top={0} left={0} m={0}>
+      {moviesList.length !== 0 && <Stack bg={COLORS.BLACK} h={60} width={"100vw"} display={isMobile || isTablet || isAndroid ? "block" : "none"}>
+        <Row justify={"space-between"}>
+          <Col>
+            <Img src="https://www.freepnglogos.com/uploads/netflix-logo-circle-png-5.png" height={40} width={100} m={10} />
+          </Col>
+          <Col style={{ marginTop: "10px", paddingTop: "10px" }}>
+            <BiSearchAlt2 color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Search")} size={20} style={{ marginRight: "20px" }} />
+            <AiFillHome color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Home")} size={20} style={{ marginRight: "20px" }} />
+            <RiMovieFill color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Series")} size={20} style={{ marginRight: "20px" }} />
+            <BiMoviePlay color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Movies")} size={20} style={{ marginRight: "20px" }} />
+            <MdOutlineCategory color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Categories")} size={20} style={{ marginRight: "20px" }} />
+            <MdOutlineNotificationsActive color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Notifications")} size={20} style={{ marginRight: "20px" }} />
+          </Col>
+        </Row>
+      </Stack>
+      }
       {
         moviesList.length === 0 && <Stack bg={COLORS.BLACK} height={"100vh"}>
           <Row justify={"center"} >
@@ -173,16 +191,14 @@ const HomeScreen = () => {
         </Stack>
       }
       {moviesList.length !== 0 && <Flex bg={COLORS.BLACK} height={"100vh"} m={0} hidden={moviesList?.length === 0 || moviesList?.length !== undefined}>
-        <Stack p={10} justify={"space-between"}>
-          <Stack>
-            <HStack><Img src="https://cdn.vectorstock.com/i/preview-1x/80/32/humpolec-czech-republic-march-23-2021-netflix-vector-37538032.jpg" height={60} width={100} /></HStack>
-            <HStack pt={10} onClick={() => setSelectedOptionScreen("Search")} _hover={{ textDecoration, cursor, textDecorationColor }}><BiSearchAlt2 color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Search</Text></HStack>
-            <HStack pt={10} onClick={() => setSelectedOptionScreen("Home")}><AiFillHome color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Home</Text></HStack>
-            <HStack pt={10} onClick={() => setSelectedOptionScreen("Series")}><RiMovieFill color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Tv shows</Text></HStack>
-            <HStack pt={10} onClick={() => setSelectedOptionScreen("Movies")}><BiMoviePlay color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Movies</Text></HStack>
-            <HStack pt={10} onClick={() => setSelectedOptionScreen("Categories")}><MdOutlineCategory color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Categories</Text></HStack>
-          </Stack>
-          <HStack mb={10} pb={10} onClick={() => setSelectedOptionScreen("Notifications")}><MdOutlineNotificationsActive color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Notifications</Text></HStack>
+        <Stack p={10} justify={"space-between"} display={isMobile || isTablet || isAndroid ? "none" : "block"}>
+          <HStack><Img src="https://cdn.vectorstock.com/i/preview-1x/80/32/humpolec-czech-republic-march-23-2021-netflix-vector-37538032.jpg" height={60} width={100} /></HStack>
+          <HStack pt={10} onClick={() => setSelectedOptionScreen("Search")} _hover={{ textDecoration, cursor, textDecorationColor }}><BiSearchAlt2 color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Search</Text></HStack>
+          <HStack pt={10} onClick={() => setSelectedOptionScreen("Home")}><AiFillHome color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Home</Text></HStack>
+          <HStack pt={10} onClick={() => setSelectedOptionScreen("Series")}><RiMovieFill color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Tv shows</Text></HStack>
+          <HStack pt={10} onClick={() => setSelectedOptionScreen("Movies")}><BiMoviePlay color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Movies</Text></HStack>
+          <HStack pt={10} onClick={() => setSelectedOptionScreen("Categories")}><MdOutlineCategory color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Categories</Text></HStack>
+          <HStack pt={10} onClick={() => setSelectedOptionScreen("Notifications")}><MdOutlineNotificationsActive color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Notifications</Text></HStack>
         </Stack>
         <>
           {

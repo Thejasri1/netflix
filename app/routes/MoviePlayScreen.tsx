@@ -6,6 +6,7 @@ import { RiArrowGoBackFill } from "react-icons/ri"
 import { BsPlayCircle } from "react-icons/bs"
 import { useState, useEffect } from "react"
 import { getMovieVideoById, getTvshowsVideoById } from "../api/moviesList"
+import {isMobile,isAndroid} from 'react-device-detect';
 import YouTube from 'react-youtube';
 
 const MoviePlayScreen = () => {
@@ -35,6 +36,7 @@ const MoviePlayScreen = () => {
     }
     useEffect(() => {
         moviePlay()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //Back navigate to home page
@@ -45,7 +47,7 @@ const MoviePlayScreen = () => {
     }
     const imageLink = "https://image.tmdb.org/t/p/original/"
     return (
-        <Box bg={COLORS.BLACK} width={"100vw"} h={"100vh"} m={0}>
+        <Box bg={COLORS.BLACK} width={"100vw"} h={"100vh"} m={0} overflow={"scroll"}>
             {playMovie ? <VStack justify={"center"} >
                 <HStack>
                     <RiArrowGoBackFill color={COLORS.WHITE} size={20} onClick={backToHomeScreen} />

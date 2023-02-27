@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)
@@ -51,3 +52,12 @@ rm -rf app
 # copy your app over
 cp -R ../my-old-remix-app/app app
 ```
+=======
+# netflix
+# Interface for Netflix app
+# https://excalidraw.com/#json=aVCmPqTU3GgliJuEZC0nd,ORr7R60i0End8yLDVWV_Ew
+# Technologies used for front end : remix js,react js. 
+# Programing Language : Typescript
+# Front end libraries : Chakra UI
+# Backend Technologies : Node js
+>>>>>>> 71c36b4ee881a9c4ddea471d701f0125eb685b84
