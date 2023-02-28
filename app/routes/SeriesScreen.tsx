@@ -1,6 +1,5 @@
 import { Box, Stack, Flex, Text, VStack, Spinner, HStack, Button, Img } from "@chakra-ui/react";
 import COLORS from "~/utils/colors";
-import { AiOutlineInfoCircle } from "react-icons/ai";
 import { BsPlay } from "react-icons/bs"
 import React, { useState, useEffect } from "react";
 import { getAllTvshows, getTvshowById } from "../api/moviesList";
@@ -74,14 +73,6 @@ const SeriesScreen = () => {
                                         </Text>
                                     </HStack>
                                 </Button>
-                                <Button bg={"transparent"} color={COLORS.WHITE} border="1px solid" _hover={{ border: "3px solid" }}>
-                                    <HStack>
-                                        <AiOutlineInfoCircle color={COLORS.WHITE} size={30} />
-                                        <Text>
-                                            More Info
-                                        </Text>
-                                    </HStack>
-                                </Button>
                             </HStack>
                             }
                         </Stack>
@@ -94,7 +85,7 @@ const SeriesScreen = () => {
                             return (
                                 <Flex key={m.id}>
                                     <VStack mt={5} p={8}>
-                                        <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid',transform:"scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
+                                        <Stack _hover={{ borderColor: COLORS.WHITE, border: '4px solid',transform:"scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
                                             {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
                                                 alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropTvshow(m)} />}
                                         </Stack>

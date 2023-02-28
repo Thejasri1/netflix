@@ -3,12 +3,12 @@ import COLORS from "~/utils/colors";
 import { BiSearchAlt2, BiMoviePlay } from "react-icons/bi";
 import { MdOutlineCategory, MdOutlineNotificationsActive } from "react-icons/md"
 import { RiMovieFill } from "react-icons/ri"
-import { AiFillHome, AiOutlineInfoCircle } from "react-icons/ai";
+import { AiFillHome } from "react-icons/ai";
 import { BsPlay } from "react-icons/bs"
 import { useState, useEffect } from "react";
 import SearchScreen from "./SearchScreen";
 import MoviesScreen from "./MoviesScreen"
-import { getAllMovies, getMovieById, getAllTvshows, getTvshowById } from "../api/moviesList";
+import { getAllMovies, getMovieById, getAllTvshows, getTvshowById, getTopRatedTvshows, getTopRatedMovies, getNowPlayingMovies, getTrending } from "../api/moviesList";
 import CategoryScreen from "./CategoryScreen";
 import NotificationsScreen from "./NotificationsScreen";
 import { Row, Col } from "antd";
@@ -22,15 +22,29 @@ const HomeScreen = () => {
   const [tvShowsList, setTvShowsList]: any = useState([])
   const [selectedOptionScreen, setSelectedOptionScreen]: any = useState("")
   const [selectedVideosList, setSelectedVideosList]: any = useState([])
+  const [topRatedTvShows, setTopRatedTvShows]: any = useState([])
+  const [topRatedMovies, setTopRatedMovies]: any = useState([])
+  const [nowPlayingMovies, setNowPlayingMovies]: any = useState([])
+  const [trending, setTrending]: any = useState([])
   const [loader, setLoader]: any = useState(false)
 
   const getAllMoviesList = async () => {
     try {
       setLoader(true)
-      const res: any = await getAllMovies()
+      const moviesData: any = await getAllMovies()
       const tvShowsRes: any = await getAllTvshows()
-      setTvShowsList(tvShowsRes.results)
-      setMoviesList(res.results)
+      const topRatedTvshows = await getTopRatedTvshows()
+      const topRatedMoviesList = await getTopRatedMovies()
+      const playingMovies = await getNowPlayingMovies()
+      const trendingList = await getTrending()
+      Promise.all([moviesData, tvShowsRes, topRatedTvshows, topRatedMoviesList, playingMovies, trendingList]).then((values: any) => {
+        setMoviesList(values[0].results)
+        setTvShowsList(values[1].results)
+        setTopRatedTvShows(values[2].results)
+        setTopRatedMovies(values[3].results)
+        setNowPlayingMovies(values[4].results)
+        setTrending(values[5].results)
+      });
       setLoader(false)
     }
     catch (e) {
@@ -100,27 +114,19 @@ const HomeScreen = () => {
                     </Text>
                   </HStack>
                 </Button>
-                <Button bg={"transparent"} color={COLORS.WHITE} border="1px solid" _hover={{ border: "3px solid" }}>
-                  <HStack>
-                    <AiOutlineInfoCircle color={COLORS.WHITE} size={30} />
-                    <Text>
-                      More Info
-                    </Text>
-                  </HStack>
-                </Button>
               </HStack>
               }
             </Stack>
           </Stack>
         </Row>
-        <Text color={COLORS.WHITE} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Hollywood Movies</Text>
+        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Top Rated Movies</Text>
         <Row>
           {
-            !loader && moviesList.map((m: any) => {
+            !loader && topRatedMovies.map((m: any) => {
               return (
                 <Flex key={m.id}>
                   <VStack mt={5} p={8}>
-                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid', transform: "scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
+                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '4px solid', transform: "scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
                       {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
                         alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropMovie(m)} />}
                     </Stack>
@@ -131,18 +137,72 @@ const HomeScreen = () => {
             })
           }
         </Row>
-        <Text color={COLORS.WHITE} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>New && Popular Tv Shows</Text>
+        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Top Rated Tv Shows</Text>
+        <Row>
+          {
+            !loader && topRatedTvShows.map((m: any) => {
+              return (
+                <Flex key={m.id}>
+                  <VStack mt={5} p={8}>
+                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '4px solid', transform: "scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
+                      {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
+                        alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropTvshow(m)} />}
+                    </Stack>
+                    <Text color={COLORS.WHITE} width={100} >{m.poster_path !== "" && m.name}</Text>
+                  </VStack>
+                </Flex>
+              )
+            })
+          }
+        </Row>
+        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Hollywood Movies</Text>
+        <Row>
+          {
+            !loader && moviesList.map((m: any) => {
+              return (
+                <Flex key={m.id}>
+                  <VStack mt={5} p={8}>
+                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '4px solid', transform: "scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
+                      {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
+                        alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropMovie(m)} />}
+                    </Stack>
+                    <Text color={COLORS.WHITE} width={100} >{m.poster_path !== "" && m.title}</Text>
+                  </VStack>
+                </Flex>
+              )
+            })
+          }
+        </Row>
+        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>New && Popular Tv Shows</Text>
         <Row>
           {
             !loader && tvShowsList.map((m: any) => {
               return (
                 <Flex key={m.id}>
                   <VStack mt={5} p={8}>
-                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '2px solid', transform: "scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
+                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '4px solid', transform: "scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
                       {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
                         alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropTvshow(m)} />}
                     </Stack>
                     <Text color={COLORS.WHITE} width={100} >{m.poster_path !== "" && m.name}</Text>
+                  </VStack>
+                </Flex>
+              )
+            })
+          }
+        </Row>
+        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Now Playing Movies</Text>
+        <Row>
+          {
+            !loader && nowPlayingMovies.map((m: any) => {
+              return (
+                <Flex key={m.id}>
+                  <VStack mt={5} p={8}>
+                    <Stack _hover={{ borderColor: COLORS.WHITE, border: '4px solid', transform: "scale(1.10,1.10)" }} color={COLORS.WHITE} align="center">
+                      {m.poster_path !== "" && <Img src={`${imageLink}/${m.poster_path}`}
+                        alt={m.title} height={200} width={150} onClick={() => onDisplayBackdropMovie(m)} />}
+                    </Stack>
+                    <Text color={COLORS.WHITE} width={100} >{m.poster_path !== "" && m.title}</Text>
                   </VStack>
                 </Flex>
               )
@@ -165,17 +225,20 @@ const HomeScreen = () => {
   return (
     <Box height={"100vh"} width={"100vw"} overflowY={"scroll"} top={0} left={0} m={0}>
       {moviesList.length !== 0 && <Stack bg={COLORS.BLACK} h={60} width={"100vw"} display={isMobile || isTablet || isAndroid ? "block" : "none"}>
-        <Row justify={"space-between"}>
+        <Row justify={"space-around"}>
           <Col>
-            <Img src="https://www.freepnglogos.com/uploads/netflix-logo-circle-png-5.png" height={40} width={100} m={10} />
+            <Img src="https://www.freepnglogos.com/uploads/netflix-logo-circle-png-5.png" height={40} width={50} m={10} />
           </Col>
           <Col style={{ marginTop: "10px", paddingTop: "10px" }}>
-            <BiSearchAlt2 color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Search")} size={20} style={{ marginRight: "20px" }} />
-            <AiFillHome color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Home")} size={20} style={{ marginRight: "20px" }} />
-            <RiMovieFill color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Series")} size={20} style={{ marginRight: "20px" }} />
-            <BiMoviePlay color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Movies")} size={20} style={{ marginRight: "20px" }} />
-            <MdOutlineCategory color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Categories")} size={20} style={{ marginRight: "20px" }} />
-            <MdOutlineNotificationsActive color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Notifications")} size={20} style={{ marginRight: "20px" }} />
+            <BiSearchAlt2 color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Search")} size={20} style={{ marginRight: "10px" }} />
+            <AiFillHome color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Home")} size={20} style={{ marginRight: "10px" }} />
+            <RiMovieFill color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Series")} size={20} style={{ marginRight: "10px" }} />
+            <BiMoviePlay color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Movies")} size={20} style={{ marginRight: "10px" }} />
+            <MdOutlineCategory color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Categories")} size={20} style={{ marginRight: "10px" }} />
+            <MdOutlineNotificationsActive color={COLORS.WHITE} onClick={() => setSelectedOptionScreen("Notifications")} size={20} />
+            {trending?.length !== 0 && <Stack align={"end"}>
+              <Text color={"red"} marginTop="-35" marginRight={"-20"}>{trending?.length - 1}+</Text>
+            </Stack>}
           </Col>
         </Row>
       </Stack>
@@ -198,7 +261,7 @@ const HomeScreen = () => {
           <HStack pt={10} onClick={() => setSelectedOptionScreen("Series")}><RiMovieFill color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Tv shows</Text></HStack>
           <HStack pt={10} onClick={() => setSelectedOptionScreen("Movies")}><BiMoviePlay color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Movies</Text></HStack>
           <HStack pt={10} onClick={() => setSelectedOptionScreen("Categories")}><MdOutlineCategory color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Categories</Text></HStack>
-          <HStack pt={10} onClick={() => setSelectedOptionScreen("Notifications")}><MdOutlineNotificationsActive color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Notifications</Text></HStack>
+          <HStack pt={10} onClick={() => setSelectedOptionScreen("Notifications")}><MdOutlineNotificationsActive color={COLORS.WHITE} /><Text _hover={{ textDecoration, cursor, textDecorationColor }} color={COLORS.WHITE}>Notifications</Text>{trending?.length !== 0 && <sup style={{ marginTop: "-25px", marginLeft: "-3px", marginRight: "-5px", color: "red" }}> {trending?.length - 1}+</sup>}</HStack>
         </Stack>
         <>
           {
