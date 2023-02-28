@@ -4,6 +4,7 @@ import { BsPlay } from "react-icons/bs"
 import React, { useState, useEffect } from "react";
 import { getAllMovies, getMovieById } from "../api/moviesList";
 import { Row, Col } from "antd";
+import { isMobile, isTablet, isAndroid } from 'react-device-detect';
 import {  useNavigate } from "react-router-dom";
 
 const MoviesScreen = () => {
@@ -50,14 +51,14 @@ const MoviesScreen = () => {
     return (
       <Col style={{ overflowY: "scroll" }}>
         <Row>
-          <Stack key={selectedMovie.id} >
+          <Stack key={selectedMovie.id}>
             {selectedMovie.length !== 0 ? <Img src={`${imageLink}/${selectedMovie.poster_path}`}
-              alt={selectedMovie.title} height={400} width={"100vw"} /> : <Img src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2019/04/27/817597-avengers-endgame.jpg" height={400} width={"100vw"}  alt="dummyImage" />}
+              alt={selectedMovie.title} height={"50vh"} width={"100vw"} /> : <Img src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2019/04/27/817597-avengers-endgame.jpg" height={400} width={"100vw"}  alt="dummyImage" />}
             <Stack style={{
               position: "absolute",
               left: "0px",
               top: "0px", zIndex: 1
-            }} width={300} padding={10}>
+            }}width={isMobile||isAndroid||isTablet ?300:"30vw"} padding={10}  h={"50vh"}>
               <Text color={"red"} fontFamily={"fantasy"} fontSize={25}>{selectedMovie.length !== 0 ? selectedMovie?.title : "Avengers End Game"}</Text>
               <HStack><Text color={COLORS.WHITE} fontFamily={"cursive"} fontWeight={300}>{selectedMovie.length !== 0 ? selectedMovie?.release_date : "2019-04-26"}</Text>
                 <Button bg={"transparent"} color={COLORS.WHITE} border="1px solid" fontFamily={"cursive"} fontWeight={300}>U/A</Button>

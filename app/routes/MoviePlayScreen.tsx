@@ -69,7 +69,7 @@ const MoviePlayScreen = () => {
                                     <RiArrowGoBackFill color={COLORS.WHITE} size={20} onClick={backToHomeScreen} />
                                     <Text color={COLORS.WHITE} >Back to home</Text>
                                 </HStack>
-                                <Text color={"red"} fontFamily={"fantasy"} fontSize={50}>{data?.title===undefined?data?.name:data?.title}</Text>
+                                <Text color={"red"} fontFamily={"fantasy"} fontSize={isMobile||isAndroid?20:50}>{data?.title===undefined?data?.name:data?.title}</Text>
                                 <HStack><Text color={COLORS.WHITE} fontFamily={"cursive"} fontWeight={300}>{data?.release_date===undefined?data?.status:data?.release_date}</Text>
                                     <Button bg={"transparent"} color={COLORS.WHITE} border="1px solid" fontFamily={"cursive"} fontWeight={300}>U/A</Button>
                                     <Button bg={"transparent"} color={COLORS.WHITE} border="1px solid" fontFamily={"cursive"} fontWeight={300}>HD</Button>

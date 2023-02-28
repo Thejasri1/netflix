@@ -91,14 +91,14 @@ const HomeScreen = () => {
     return (
       <Col style={{ overflowY: "scroll" }}>
         <Row>
-          <Stack key={selectedVideosList.id} >
+          <Stack key={selectedVideosList.id} mb={10} pb={10} >
             {selectedVideosList.length !== 0 ? <Img src={`${imageLink}/${selectedVideosList.poster_path}`}
-              alt={selectedVideosList.title} height={400} width={"100vw"} /> : <Img src="https://images5.alphacoders.com/594/thumb-1920-594616.jpg" height={400} width={"100vw"} alt="dummyImage" />}
+              alt={selectedVideosList.title} height={"50vh"} width={"100vw"} /> : <Img src="https://images5.alphacoders.com/594/thumb-1920-594616.jpg" height={400} width={"100vw"} alt="dummyImage" />}
             <Stack style={{
               position: "absolute",
               left: "0px",
               top: "0px", zIndex: 1
-            }} width={300} padding={10}>
+            }} width={isMobile||isAndroid||isTablet ?300:"30vw"} padding={10}  h={"50vh"}>
               <Text color={"red"} fontFamily={"fantasy"} fontSize={25}>{selectedVideosList.length !== 0 ? selectedVideosList.name === undefined ? selectedVideosList?.title : selectedVideosList?.name : "Pirates of the caribbean"}</Text>
               <HStack><Text color={COLORS.WHITE} fontFamily={"cursive"} fontWeight={300}>{selectedVideosList.length !== 0 ? selectedVideosList?.release_date === undefined ? selectedVideosList?.status : selectedVideosList?.release_date : "2007-05-25"}</Text>
                 <Button bg={"transparent"} color={COLORS.WHITE} border="1px solid" fontFamily={"cursive"} fontWeight={300}>U/A</Button>
@@ -119,7 +119,7 @@ const HomeScreen = () => {
             </Stack>
           </Stack>
         </Row>
-        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Top Rated Movies</Text>
+        <Text color={COLORS.WHITE} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Top Rated Movies</Text>
         <Row>
           {
             !loader && topRatedMovies.map((m: any) => {
@@ -137,7 +137,7 @@ const HomeScreen = () => {
             })
           }
         </Row>
-        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Top Rated Tv Shows</Text>
+        <Text color={COLORS.WHITE} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Top Rated Tv Shows</Text>
         <Row>
           {
             !loader && topRatedTvShows.map((m: any) => {
@@ -155,7 +155,7 @@ const HomeScreen = () => {
             })
           }
         </Row>
-        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Hollywood Movies</Text>
+        <Text color={COLORS.WHITE} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Hollywood Movies</Text>
         <Row>
           {
             !loader && moviesList.map((m: any) => {
@@ -173,7 +173,7 @@ const HomeScreen = () => {
             })
           }
         </Row>
-        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>New && Popular Tv Shows</Text>
+        <Text color={COLORS.WHITE} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>New && Popular Tv Shows</Text>
         <Row>
           {
             !loader && tvShowsList.map((m: any) => {
@@ -191,7 +191,7 @@ const HomeScreen = () => {
             })
           }
         </Row>
-        <Text color={"red"} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Now Playing Movies</Text>
+        <Text color={COLORS.WHITE} fontSize={20} fontWeight={500} fontFamily={"sans-serif"}>Now Playing Movies</Text>
         <Row>
           {
             !loader && nowPlayingMovies.map((m: any) => {

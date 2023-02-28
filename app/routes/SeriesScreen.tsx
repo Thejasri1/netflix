@@ -4,6 +4,7 @@ import { BsPlay } from "react-icons/bs"
 import React, { useState, useEffect } from "react";
 import { getAllTvshows, getTvshowById } from "../api/moviesList";
 import { Row, Col } from "antd";
+import { isMobile, isTablet, isAndroid } from 'react-device-detect';
 import {  useNavigate } from "react-router-dom";
 
 const SeriesScreen = () => {
@@ -50,14 +51,14 @@ const SeriesScreen = () => {
         return (
             <Col style={{ overflowY: "scroll" }}>
                 <Row>
-                    <Stack key={selectedTvshow.id} >
+                    <Stack key={selectedTvshow.id}>
                         {selectedTvshow.length !== 0 ? <Img src={`${imageLink}/${selectedTvshow.poster_path}`}
-                            alt={selectedTvshow.title} height={400} width={"100vw"} /> : <Img src="https://scatteredquotes.com/wp-content/uploads/2022/11/Wednesday-Quotes-The-Best-Quotes-from-the-Netflix-TV-series-Wednesday.jpg" height={400} width={"100vw"} alt="dummyImage" />}
+                            alt={selectedTvshow.title} height={"50vh"} width={"100vw"} /> : <Img src="https://scatteredquotes.com/wp-content/uploads/2022/11/Wednesday-Quotes-The-Best-Quotes-from-the-Netflix-TV-series-Wednesday.jpg" height={400} width={"100vw"} alt="dummyImage" />}
                         <Stack style={{
                             position: "absolute",
                             left: "0px",
                             top: "0px", zIndex: 1
-                        }} width={300} padding={10}>
+                        }} width={isMobile||isAndroid||isTablet ?300:"30vw"} padding={10}  h={"50vh"}>
                             <Text color={"red"} fontFamily={"fantasy"} fontSize={25}>{selectedTvshow.length !== 0 ? selectedTvshow?.name : "WEDNESSDAY"}</Text>
                             <HStack><Text color={COLORS.WHITE} fontFamily={"cursive"} fontWeight={300}>{selectedTvshow.length !== 0 ? selectedTvshow?.release_date : "2022-11-16"}</Text>
                                 <Button bg={"transparent"} color={COLORS.WHITE} border="1px solid" fontFamily={"cursive"} fontWeight={300}>U/A</Button>
