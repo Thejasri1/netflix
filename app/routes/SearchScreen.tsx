@@ -52,7 +52,7 @@ const SearchScreen = () => {
     }
 
 
-    const filteringSearchedMovies: any = moviesList.filter((m: any) => m?.title?.toLocaleLowerCase().includes(selectedFont) || m?.name?.toLocaleLowerCase().includes(selectedFont))
+    const filteringSearchedMovies: any = moviesList.filter((m: any) => m?.title?.toLocaleLowerCase().includes(selectedFont.toLocaleLowerCase()) || m?.name?.toLocaleLowerCase().includes(selectedFont.toLocaleLowerCase()))
     const imageLink = "https://image.tmdb.org/t/p/original/"
 
     return (
