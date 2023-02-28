@@ -71,38 +71,25 @@ const CategoryScreen = () => {
     return (
         <Box backgroundColor={COLORS.BLACK} height="100vh" width="100vw" overflow={"scroll"}>
             <Flex display={isMobile || isTablet || isAndroid ? "none" : "block"}>
-                <Stack style={{ paddingTop: "20px" }} width={"20vw"}>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("en")} cursor={"pointer"}>
-                        English
-                    </Text>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("id")} cursor={"pointer"}>
-                        Indonesian
-                    </Text>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("hi")} cursor={"pointer"}>
-                        Hindi
-                    </Text>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("ma")} cursor={"pointer"}>
-                        Maliyalam
-                    </Text>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("ja")} cursor={"pointer"}>
-                        Japanese
-                    </Text>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("ta")} cursor={"pointer"}>
-                        Tamil
-                    </Text>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("te")} cursor={"pointer"}>
-                        Telugu
-                    </Text>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("sp")} cursor={"pointer"}>
-                        Spanish
-                    </Text>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("ru")} cursor={"pointer"}>
-                        Russian
-                    </Text>
-                    <Text color={COLORS.WHITE} _hover={{ borderColor: COLORS.WHITE, border: '1px solid' }} onClick={() => callMovieDBbySelectedLanguage("po")} cursor={"pointer"}>
-                        Portuguese
-                    </Text>
-                </Stack>
+            <Stack display={isMobile || isTablet || isAndroid ? "none" : "block"} ml={5} mt={10}>
+                <Menu>
+                    <MenuButton as={Button} rightIcon={<IoMdArrowDropdown size={30}/>} border={"2px solid white"} bg={"transparent"} width={"50vw"} color={COLORS.WHITE} borderRadius={5}>
+                        <Text fontFamily="sans-serif" fontSize={16} m={10} >Select by language Category</Text>
+                    </MenuButton>
+                    <MenuList w={"50vw"} bg={"transparent"} color={COLORS.WHITE} p={10} m={10} >
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0px solid"} onClick={() => callMovieDBbySelectedLanguage("en")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>English</Text></MenuItem>
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0 solid"} onClick={() => callMovieDBbySelectedLanguage("id")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>Indonesian</Text></MenuItem>
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0 solid"} onClick={() => callMovieDBbySelectedLanguage("hi")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>Hindi</Text></MenuItem>
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0 solid"} onClick={() => callMovieDBbySelectedLanguage("ma")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>Maliyalam</Text></MenuItem>
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0 solid"} onClick={() => callMovieDBbySelectedLanguage("ja")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>Japanese</Text></MenuItem>
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0 solid"} onClick={() => callMovieDBbySelectedLanguage("ta")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>Tamil</Text></MenuItem>
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0 solid"} onClick={() => callMovieDBbySelectedLanguage("te")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>Telugu</Text></MenuItem>
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0 solid"} onClick={() => callMovieDBbySelectedLanguage("sp")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>Spanish</Text></MenuItem>
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0 solid"} onClick={() => callMovieDBbySelectedLanguage("ru")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>Russian</Text></MenuItem>
+                        <MenuItem bg={"transparent"} cursor="pointer" border={"0 solid"} onClick={() => callMovieDBbySelectedLanguage("po")} _hover={{border:"1px solid white"}}><Text fontSize={14} m={10}>Portuguese</Text></MenuItem>
+                    </MenuList>
+                </Menu>
+            </Stack>
                 <Row>
                     {
                         !loader && selectedLanguageMv.map((m: any) => {
@@ -155,7 +142,7 @@ const CategoryScreen = () => {
                     </MenuList>
                 </Menu>
             </Stack>
-            <Row>
+            <Row style={{display:isMobile || isTablet || isAndroid ? "Block" : "none"}}>
                 {
                     !loader && selectedLanguageMv.map((m: any) => {
                         return (
